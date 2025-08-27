@@ -217,68 +217,249 @@
             border-radius: 8px;
             transition: all 0.5s ease;
         }
+        
+        /* 响应式媒体查询 */
+        @media (max-width: 640px) {
+            /* 移动端字体缩放 */
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.75rem; }
+            h3 { font-size: 1.25rem; }
+            h4 { font-size: 1.125rem; }
+            
+            /* 移动端内边距调整 */
+            .p-6 { padding: 1rem; }
+            .p-8 { padding: 1.5rem; }
+            .p-12 { padding: 1.5rem; }
+            
+            /* 移动端侧边栏宽度调整 */
+            #sidebar {
+                width: 256px; /* 对应 w-64 */
+            }
+            
+            /* 移动端图表容器 */
+            .chart-container {
+                height: 250px;
+                max-width: 100%;
+            }
+            
+            /* 移动端按钮优化 */
+            button {
+                min-height: 44px;
+                padding: 0.75rem 1rem;
+            }
+            
+            /* 移动端时间轴调整 */
+            .timeline-item {
+                padding-left: 2rem;
+            }
+            
+            .timeline-item::before {
+                left: -15px;
+                width: 16px;
+                height: 16px;
+            }
+            
+            /* 移动端架构图调整 */
+            .arch-arrow {
+                font-size: 1.5rem;
+            }
+            
+            .arch-component {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.75rem;
+            }
+            
+            /* 移动端数学公式调整 */
+            .math-box {
+                font-size: 0.8rem;
+                padding: 0.375rem;
+            }
+            
+            /* 移动端向量动画调整 */
+            .vector-bar {
+                min-height: 3px;
+            }
+            
+            /* 移动端权重显示调整 */
+            .weight-display {
+                font-size: 1.25rem;
+                padding: 0.375rem;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+            /* 平板端优化 */
+            h2 { font-size: 2.5rem; }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            #sidebar {
+                width: 256px; /* 对应 md:w-64 */
+            }
+            
+            button {
+                min-height: 42px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            /* 小桌面端优化 */
+            .chart-container {
+                height: 320px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            /* 大桌面端优化 */
+            .chart-container {
+                height: 400px;
+                max-width: 700px;
+            }
+            
+            /* 大屏幕下增加内容最大宽度 */
+            main {
+                max-width: 1200px;
+            }
+        }
+        
+        /* 触控设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            /* 增加触控目标大小 */
+            .nav-link {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+            }
+            
+            button, .nav-link, .attention-word {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            /* 优化触控反馈 */
+            .attention-word:active {
+                transform: scale(0.95);
+            }
+            
+            button:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* 高对比度模式支持 */
+        @media (prefers-contrast: high) {
+            .nav-link {
+                border: 2px solid transparent;
+            }
+            
+            .nav-link.active {
+                border-color: #4338CA;
+            }
+            
+            .arch-component, .arch-box {
+                border-width: 2px;
+            }
+        }
+        
+        /* 减少动画模式支持 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* 防止侧边栏遮盖内容的额外保护 */
+        @media (min-width: 768px) {
+            main {
+                margin-left: 256px; /* 确保与侧边栏宽度一致 */
+            }
+            
+            #sidebar {
+                width: 256px !important; /* 强制固定宽度 */
+            }
+        }
+        
+        /* 移动端确保侧边栏完全隐藏 */
+        @media (max-width: 767px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+            
+            #sidebar.show {
+                transform: translateX(0);
+            }
+            
+            main {
+                margin-left: 0 !important;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
     <div class="flex min-h-screen">
         <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200 p-6 fixed h-full transition-transform -translate-x-full md:translate-x-0 z-20">
-            <h1 class="text-2xl font-bold text-gray-800 mb-8">大模型速览</h1>
+        <aside id="sidebar" class="w-64 bg-white/90 backdrop-blur-sm border-r border-gray-200 p-4 sm:p-6 fixed h-full transition-all duration-300 z-20 shadow-lg md:shadow-none">
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8">大模型速览</h1>
             <nav id="nav-menu" class="space-y-1">
-                <a href="#intro" class="nav-link block p-3 rounded-md text-lg">引言</a>
-                <a href="#evolution" class="nav-link block p-3 rounded-md text-lg">演进之路</a>
-                <a href="#vectors" class="nav-link block p-3 rounded-md text-lg">核心基石：向量</a>
-                <a href="#transformer" class="nav-link block p-3 rounded-md text-lg">核心引擎：Transformer</a>
-                <a href="#training" class="nav-link block p-3 rounded-md text-lg">训练概述</a>
-                <a href="#decoder-arch" class="nav-link block p-3 rounded-md text-lg">解码器架构</a>
-                <a href="#decoder-journey" class="nav-link block p-3 rounded-md text-lg">向量的深度之旅</a>
-                <a href="#inference" class="nav-link block p-3 rounded-md text-lg">推理过程</a>
-                <a href="#illusion" class="nav-link block p-3 rounded-md text-lg">智能的幻象</a>
+                <a href="#intro" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">引言</a>
+                <a href="#evolution" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">演进之路</a>
+                <a href="#vectors" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">核心基石：向量</a>
+                <a href="#transformer" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">核心引擎：Transformer</a>
+                <a href="#training" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">训练概述</a>
+                <a href="#decoder-arch" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">解码器架构</a>
+                <a href="#decoder-journey" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">向量的深度之旅</a>
+                <a href="#inference" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">推理过程</a>
+                <a href="#illusion" class="nav-link block p-3 rounded-md text-base sm:text-lg transition-all">智能的幻象</a>
             </nav>
         </aside>
 
         <!-- Mobile Header -->
-        <header class="md:hidden fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm p-4 z-10 border-b border-gray-200 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-gray-800">解构大模型</h1>
-            <button id="menu-toggle" class="text-2xl text-gray-600">☰</button>
+        <header class="md:hidden fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm p-4 z-30 border-b border-gray-200 flex justify-between items-center shadow-sm">
+            <h1 class="text-lg sm:text-xl font-bold text-gray-800">大模型速览</h1>
+            <button id="menu-toggle" class="text-2xl text-gray-600 p-2 rounded-md hover:bg-gray-100 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center">☰</button>
         </header>
 
         <!-- Main Content -->
-        <main class="flex-1 md:ml-64 p-6 md:p-12 pt-20 md:pt-12">
+        <main class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12 pt-20 md:pt-12">
+            <div class="max-w-none lg:max-w-4xl xl:max-w-5xl mx-auto">
             
             <section id="intro" class="content-section">
-                <h2 class="text-4xl font-bold mb-4 text-[#4338CA]">思考：大模型真的能理解文字吗？</h2>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-[#4338CA]">思考：大模型真的能理解文字吗？</h2>
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <div class="space-y-6">
-                        <p class="text-xl leading-relaxed text-gray-700">我们每天都在与大型语言模型（LLM）互动，惊叹于它们强大的对话、创作乃至推理能力。</p>
-                        <p class="text-xl leading-relaxed text-gray-700">这引出了一个根本性的问题：当模型翻译一句复杂的诗歌，或解决一道棘手的数学题时，它是在进行真正的“思考”吗？</p>
-                        <blockquote class="border-l-4 border-[#6366F1] pl-4 italic text-2xl text-gray-800">
+                        <p class="text-lg sm:text-xl leading-relaxed text-gray-700">我们每天都在与大型语言模型（LLM）互动，惊叹于它们强大的对话、创作乃至推理能力。</p>
+                        <p class="text-lg sm:text-xl leading-relaxed text-gray-700">这引出了一个根本性的问题：当模型翻译一句复杂的诗歌，或解决一道棘手的数学题时，它是在进行真正的"思考"吗？</p>
+                        <blockquote class="border-l-4 border-[#6366F1] pl-4 italic text-xl sm:text-2xl text-gray-800">
                             它是否真的像人类一样“理解”了文字背后的含义？
                         </blockquote>
                     </div>
-                    <div class="flex items-center justify-center p-8">
-                        <div class="w-64 h-64 bg-white rounded-full flex items-center justify-center shadow-lg relative">
-                            <div class="text-8xl animate-pulse text-indigo-400">?</div>
-                            <div class="absolute w-full h-full border-4 border-indigo-200 rounded-full animate-ping"></div>
+                    <div class="flex items-center justify-center p-4 sm:p-8">
+                        <div class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-white rounded-full flex items-center justify-center shadow-lg relative">
+                            <div class="text-6xl sm:text-7xl md:text-8xl animate-pulse text-indigo-400">?</div>
+                            <div class="absolute w-full h-full border-2 sm:border-4 border-indigo-200 rounded-full animate-ping"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section id="evolution" class="content-section">
-                <h2 class="text-4xl font-bold mb-8 text-[#4338CA]">演进之路：机器翻译的技术变迁</h2>
-                <p class="text-xl leading-relaxed mb-8 text-gray-700">今天我们所熟知的大模型，并非凭空出现。它深深植根于<strong>自然语言处理（NLP）</strong>数十年的探索，并由<strong>神经网络</strong>技术引爆。可以说，<strong>NLP的发展史，就是大模型的演进史</strong>。让我们以"机器翻译"这个NLP领域的经典难题为线索，见证这场伟大的技术变革。</p>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-[#4338CA]">演进之路：机器翻译的技术变迁</h2>
+                <p class="text-lg sm:text-xl leading-relaxed mb-6 sm:mb-8 text-gray-700">今天我们所熟知的大模型，并非凭空出现。它深深植根于<strong>自然语言处理（NLP）</strong>数十年的探索，并由<strong>神经网络</strong>技术引爆。可以说，<strong>NLP的发展史，就是大模型的演进史</strong>。让我们以"机器翻译"这个NLP领域的经典难题为线索，见证这场伟大的技术变革。</p>
                 <!-- 挑战示例 -->
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl shadow-sm border border-blue-200 mb-8">
-                    <h3 class="text-2xl font-semibold mb-4 text-center text-blue-800">🎯 贯穿始终的翻译挑战</h3>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-white p-4 rounded-lg border border-blue-100">
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 rounded-xl shadow-sm border border-blue-200 mb-6 sm:mb-8">
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-4 text-center text-blue-800">🎯 贯穿始终的翻译挑战</h3>
+                    <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+                        <div class="bg-white p-3 sm:p-4 rounded-lg border border-blue-100">
                             <h4 class="font-bold text-blue-700 mb-2">英文原句</h4>
                             <p class="font-mono text-lg text-blue-800">"The cat sat on the mat"</p>
                 </div>
-                        <div class="bg-white p-4 rounded-lg border border-green-100">
+                        <div class="bg-white p-3 sm:p-4 rounded-lg border border-green-100">
                             <h4 class="font-bold text-green-700 mb-2">期望中文</h4>
-                            <p class="font-mono text-lg text-green-800">"猫坐在垫子上"</p>
+                            <p class="font-mono text-base sm:text-lg text-green-800">"猫坐在垫子上"</p>
                             </div>
                             </div>
                     <p class="text-center text-sm text-blue-600 mt-4">看似简单的句子，却包含了词汇翻译、语法转换、语序调整等多重挑战</p>
@@ -287,19 +468,19 @@
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
                     <h3 class="text-xl font-semibold mb-4 text-center">🚀 技术演进路线图</h3>
                     <div class="flex flex-wrap justify-center gap-3">
-                        <button class="evolution-stage-btn bg-red-100 hover:bg-red-200 px-4 py-2 rounded-lg border border-red-300 font-semibold text-red-700 transition" data-stage="rule-based" onclick="showEvolutionStage('rule-based')">
+                        <button class="evolution-stage-btn bg-red-100 hover:bg-red-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-red-300 font-semibold text-red-700 transition min-h-[44px] text-sm sm:text-base" data-stage="rule-based" onclick="showEvolutionStage('rule-based')">
                             📋 规则驱动 (1950s-1980s)
                         </button>
-                        <button class="evolution-stage-btn bg-orange-100 hover:bg-orange-200 px-4 py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition" data-stage="statistical" onclick="showEvolutionStage('statistical')">
+                        <button class="evolution-stage-btn bg-orange-100 hover:bg-orange-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition min-h-[44px] text-sm sm:text-base" data-stage="statistical" onclick="showEvolutionStage('statistical')">
                             📊 统计革命 (1990s-2000s)
                         </button>
-                        <button class="evolution-stage-btn bg-green-100 hover:bg-green-200 px-4 py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition" data-stage="neural" onclick="showEvolutionStage('neural')">
+                        <button class="evolution-stage-btn bg-green-100 hover:bg-green-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition min-h-[44px] text-sm sm:text-base" data-stage="neural" onclick="showEvolutionStage('neural')">
                             🧠 神经网络 (2010s)
                         </button>
-                        <button class="evolution-stage-btn bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded-lg border border-blue-300 font-semibold text-blue-700 transition" data-stage="attention" onclick="showEvolutionStage('attention')">
+                        <button class="evolution-stage-btn bg-blue-100 hover:bg-blue-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-blue-300 font-semibold text-blue-700 transition min-h-[44px] text-sm sm:text-base" data-stage="attention" onclick="showEvolutionStage('attention')">
                             👁️ 注意力机制 (2014-2016)
                         </button>
-                        <button class="evolution-stage-btn bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition" data-stage="transformer" onclick="showEvolutionStage('transformer')">
+                        <button class="evolution-stage-btn bg-purple-100 hover:bg-purple-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition min-h-[44px] text-sm sm:text-base" data-stage="transformer" onclick="showEvolutionStage('transformer')">
                             🚀 Transformer (2017至今)
                         </button>
                             </div>
@@ -308,7 +489,7 @@
                 <!-- 第一阶段：规则驱动 -->
                 <div id="stage-rule-based" class="evolution-stage">
                     <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-                        <h3 class="text-3xl font-bold mb-6 text-red-700">📋 第一阶段：规则驱动 (1950s-1980s)</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-red-700">📋 第一阶段：规则驱动 (1950s-1980s)</h3>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- 核心思想 -->
@@ -400,7 +581,7 @@
                 <!-- 第二阶段：统计革命 -->
                 <div id="stage-statistical" class="evolution-stage hidden">
                     <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-                        <h3 class="text-3xl font-bold mb-6 text-orange-700">📊 第二阶段：统计革命 (1990s-2000s)</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-orange-700">📊 第二阶段：统计革命 (1990s-2000s)</h3>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- 核心思想 -->
@@ -490,7 +671,7 @@
                 <!-- 第三阶段：神经网络 -->
                 <div id="stage-neural" class="evolution-stage hidden">
                     <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-                        <h3 class="text-3xl font-bold mb-6 text-green-700">🧠 第三阶段：神经网络 (2010s)</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-green-700">🧠 第三阶段：神经网络 (2010s)</h3>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- 核心思想 -->
@@ -586,7 +767,7 @@
                 <!-- 第四阶段：注意力机制 -->
                 <div id="stage-attention" class="evolution-stage hidden">
                     <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-                        <h3 class="text-3xl font-bold mb-6 text-blue-700">👁️ 第四阶段：注意力机制 (2014-2016)</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-blue-700">👁️ 第四阶段：注意力机制 (2014-2016)</h3>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- 核心思想 -->
@@ -679,7 +860,7 @@
                 <!-- 第五阶段：Transformer -->
                 <div id="stage-transformer" class="evolution-stage hidden">
                     <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-                        <h3 class="text-3xl font-bold mb-6 text-purple-700">🚀 第五阶段：Transformer (2017至今)</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 text-purple-700">🚀 第五阶段：Transformer (2017至今)</h3>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- 核心思想 -->
@@ -806,8 +987,8 @@
             </section>
 
             <section id="vectors" class="content-section">
-                <h2 class="text-4xl font-bold mb-8 text-[#4338CA]">核心基石：向量的演进之路</h2>
-                <p class="text-xl leading-relaxed mb-8 text-gray-700">向量技术的发展历程，是一个从"数字标记"到"语义理解"的精彩演进故事。让我们追溯这段历史，理解为什么向量成为了大模型的核心基石。</p>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-[#4338CA]">核心基石：向量的演进之路</h2>
+                <p class="text-lg sm:text-xl leading-relaxed mb-6 sm:mb-8 text-gray-700">向量技术的发展历程，是一个从"数字标记"到"语义理解"的精彩演进故事。让我们追溯这段历史，理解为什么向量成为了大模型的核心基石。</p>
                 
                 <!-- 历史演进时间线 -->
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
@@ -1063,8 +1244,8 @@
                                     </ul>
                                 </div>
                             <div>
-                               <button id="plot-related" class="bg-[#4338CA] text-white px-6 py-2 rounded-lg hover:bg-[#3730A3] transition">绘制相关词</button>
-                               <button id="plot-unrelated" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition ml-2">绘制无关词</button>
+                               <button id="plot-related" class="bg-[#4338CA] text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-[#3730A3] transition min-h-[44px] text-sm sm:text-base">绘制相关词</button>
+                               <button id="plot-unrelated" class="bg-gray-200 text-gray-800 px-4 sm:px-6 py-3 rounded-lg hover:bg-gray-300 transition ml-2 min-h-[44px] text-sm sm:text-base">绘制无关词</button>
                             </div>
                         </div>
                     </div>
@@ -1078,9 +1259,9 @@
             </section>
 
             <section id="transformer" class="content-section">
-                <h2 class="text-4xl font-bold mb-4 text-[#4338CA]">核心引擎：Transformer</h2>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-[#4338CA]">核心引擎：Transformer</h2>
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8 relative">
-                    <h3 class="text-3xl font-semibold mb-2 text-center">革命性创新：自注意力机制</h3>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 text-center">革命性创新：自注意力机制</h3>
                     <p class="text-center mb-6 text-gray-600">将鼠标悬停在下方句子的单词上，观察它如何动态地“关注”其他单词，从而理解上下文。</p>
                     <div id="attention-sentence" class="text-3xl font-medium text-center space-x-4 p-4 relative z-10">
                         <span class="attention-word p-2" data-id="0">The</span>
@@ -1096,18 +1277,18 @@
                     </div>
                 </div>
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-                    <h3 class="text-3xl font-semibold mb-6 text-center">三大主流架构</h3>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 text-center">三大主流架构</h3>
                     <div class="flex justify-center space-x-4 mb-6">
-                        <button class="arch-button bg-[#4338CA] text-white px-6 py-2 rounded-lg" data-arch="enc-dec">Encoder-Decoder</button>
-                        <button class="arch-button bg-gray-200 text-gray-800 px-6 py-2 rounded-lg" data-arch="enc-only">Encoder-Only</button>
-                        <button class="arch-button bg-gray-200 text-gray-800 px-6 py-2 rounded-lg" data-arch="dec-only">Decoder-Only</button>
+                        <button class="arch-button bg-[#4338CA] text-white px-4 sm:px-6 py-3 rounded-lg min-h-[44px] text-sm sm:text-base" data-arch="enc-dec">Encoder-Decoder</button>
+                        <button class="arch-button bg-gray-200 text-gray-800 px-4 sm:px-6 py-3 rounded-lg min-h-[44px] text-sm sm:text-base" data-arch="enc-only">Encoder-Only</button>
+                        <button class="arch-button bg-gray-200 text-gray-800 px-4 sm:px-6 py-3 rounded-lg min-h-[44px] text-sm sm:text-base" data-arch="dec-only">Decoder-Only</button>
                     </div>
                     <div id="arch-display"></div>
                 </div>
             </section>
 
             <section id="training" class="content-section">
-                <h2 class="text-4xl font-bold mb-8 text-[#4338CA]">训练概述：学习预测的艺术</h2>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-[#4338CA]">训练概述：学习预测的艺术</h2>
                 <p class="text-xl leading-relaxed mb-8 text-gray-700">以GPT这类Decoder-Only模型为例，其训练过程极其“单纯”而暴力：在海量文本上，永无止境地进行“预测下一个词”的任务。这个过程被称为“教师强制（Teacher Forcing）”。</p>
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
                     <h3 class="text-2xl font-semibold mb-4">训练流程：一次精准的“批改作业”</h3>
@@ -1323,7 +1504,7 @@
             </section>
             
             <section id="decoder-arch" class="content-section">
-                <h2 class="text-4xl font-bold mb-8 text-[#4338CA]">解码器架构：深入核心</h2>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-[#4338CA]">解码器架构：深入核心</h2>
                 <p class="text-xl leading-relaxed mb-8 text-gray-700">GPT这类Decoder-Only模型的核心是<strong>重复堆叠的解码器模块</strong>。让我们逐步拆解每个组件，了解现代大模型（包括MoE架构）的精巧设计。</p>
                 
                 <!-- 架构概览 -->
@@ -1382,16 +1563,16 @@
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
                     <h3 class="text-2xl font-semibold mb-6 text-center">🔍 深入组件细节</h3>
                     <div class="flex flex-wrap justify-center gap-4 mb-6">
-                        <button class="component-btn bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition" data-component="attention" onclick="showComponent('attention')">
+                        <button class="component-btn bg-purple-100 hover:bg-purple-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition min-h-[44px] text-sm sm:text-base" data-component="attention" onclick="showComponent('attention')">
                             🧠 多头注意力 (MHA)
                         </button>
-                        <button class="component-btn bg-orange-100 hover:bg-orange-200 px-4 py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition" data-component="ffn" onclick="showComponent('ffn')">
+                        <button class="component-btn bg-orange-100 hover:bg-orange-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition min-h-[44px] text-sm sm:text-base" data-component="ffn" onclick="showComponent('ffn')">
                             ⚡ 前馈网络 (FFN)
                         </button>
-                        <button class="component-btn bg-green-100 hover:bg-green-200 px-4 py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition" data-component="moe" onclick="showComponent('moe')">
+                        <button class="component-btn bg-green-100 hover:bg-green-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition min-h-[44px] text-sm sm:text-base" data-component="moe" onclick="showComponent('moe')">
                             🎯 专家混合 (MoE)
                         </button>
-                        <button class="component-btn bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-lg border border-indigo-300 font-semibold text-indigo-700 transition" data-component="residual" onclick="showComponent('residual')">
+                        <button class="component-btn bg-indigo-100 hover:bg-indigo-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-indigo-300 font-semibold text-indigo-700 transition min-h-[44px] text-sm sm:text-base" data-component="residual" onclick="showComponent('residual')">
                             🔗 残差连接
                         </button>
                     </div>
@@ -1705,16 +1886,16 @@
             </section>
 
             <section id="decoder-journey" class="content-section">
-                <h2 class="text-4xl font-bold mb-8 text-[#4338CA]">向量的深度之旅：一步一脚印</h2>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-[#4338CA]">向量的深度之旅：一步一脚印</h2>
                 <p class="text-xl leading-relaxed mb-8 text-gray-700">我们已经知道训练的核心是"预测-对比-修正"的循环。现在，让我们深入模型内部，用一个具体的数字例子，追踪 `an apple` 这两个词的向量，看看它们是如何一步步计算，最终预测出下一个词 `a` 的。</p>
                 
                 <!-- 训练过程控制面板 -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
-                            <button id="start-training" class="bg-[#4338CA] text-white px-6 py-3 rounded-lg hover:bg-[#3730A3] transition font-semibold">开始训练演示</button>
-                            <button id="next-step" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold hidden">下一步</button>
-                            <button id="reset-training" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-semibold">重置</button>
+                            <button id="start-training" class="bg-[#4338CA] text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-[#3730A3] transition font-semibold min-h-[44px] text-sm sm:text-base">开始训练演示</button>
+                            <button id="next-step" class="bg-green-600 text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold hidden min-h-[44px] text-sm sm:text-base">下一步</button>
+                            <button id="reset-training" class="bg-gray-200 text-gray-800 px-4 sm:px-6 py-3 rounded-lg hover:bg-gray-300 transition font-semibold min-h-[44px] text-sm sm:text-base">重置</button>
                         </div>
                         <div class="flex items-center gap-4">
                             <div class="text-sm text-gray-600">当前步骤:</div>
@@ -1740,7 +1921,7 @@
                 
                 <div class="space-y-8">
                     <div class="journey-step training-step" data-step="1" id="step-1">
-                        <h3 class="text-3xl font-semibold mb-4">第一步：初始向量 (Embeddings)</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第一步：初始向量 (Embeddings)</h3>
                         <p class="mb-4 text-gray-700">模型接收到 `an apple`，并从输入层查找到它们各自的初始向量。为了方便理解，我们假设向量只有4个维度。这些向量代表了词语的"基础含义"。</p>
                         <div class="flex justify-around p-4 bg-white rounded-xl border border-gray-200">
                             <div class="text-center vector-display" data-word="an">
@@ -1758,7 +1939,7 @@
                     </div>
 
                     <div class="journey-step training-step" data-step="2" id="step-2">
-                        <h3 class="text-3xl font-semibold mb-4">第二步：QKV线性变换</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第二步：QKV线性变换</h3>
                         <p class="mb-4 text-gray-700">在自注意力层，模型有三个可学习的权重矩阵 W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub>。每个输入向量都会与这三个矩阵相乘，生成三个新向量：<strong>Query</strong> (用于查询), <strong>Key</strong> (用于被查询), <strong>Value</strong> (携带信息)。</p>
                         <p class="text-center font-semibold text-lg my-4">以 `apple` 的向量 [4, 1, 5, 2] 为例：</p>
                         <div class="grid md:grid-cols-3 gap-4 text-center p-4 bg-white rounded-xl border border-gray-200">
@@ -1833,7 +2014,7 @@
                     </div>
 
                     <div class="journey-step training-step" data-step="3" id="step-3">
-                        <h3 class="text-3xl font-semibold mb-4">第三步：计算注意力分数</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第三步：计算注意力分数</h3>
                         <p class="mb-4 text-gray-700">为了更新 `apple` 位置的向量，模型会用 `apple` 的<strong>Query</strong>向量，去和所有它能看到的词（`an` 和 `apple` 自身）的<strong>Key</strong>向量做点积运算，得到原始的"注意力分数"。</p>
                         <div class="grid md:grid-cols-2 gap-4 text-center p-4 bg-white rounded-xl border border-gray-200">
                             <div class="attention-calc" data-pair="an">
@@ -1881,7 +2062,7 @@
                     </div>
                     
                     <div class="journey-step training-step" data-step="4" id="step-4">
-                        <h3 class="text-3xl font-semibold mb-4">第四步：Softmax归一化</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第四步：Softmax归一化</h3>
                         <p class="mb-4 text-gray-700">Softmax函数会将缩放后的分数转换为0到1之间、总和为1的权重。它通过计算每个分数的指数，然后除以所有分数的指数之和来完成。</p>
                         <div class="p-4 bg-white rounded-xl border border-gray-200">
                             <div class="softmax-visual space-y-6">
@@ -1966,7 +2147,7 @@
                     </div>
 
                     <div class="journey-step training-step" data-step="5" id="step-5">
-                        <h3 class="text-3xl font-semibold mb-4">第五步：生成上下文向量</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第五步：生成上下文向量</h3>
                         <p class="mb-4 text-gray-700">模型用上一步得到的注意力权重，去对<strong>所有词</strong>的<strong>Value</strong>向量进行加权求和，得到一个全新的、融合了上下文信息的向量。这个新向量将作为`apple`位置的输出，传递给下一层或FFN。</p>
                         <div class="p-4 bg-white rounded-xl border border-gray-200">
                             <div class="context-computation space-y-4">
@@ -2008,7 +2189,7 @@
 
 
                     <div class="journey-step training-step" data-step="6" id="step-6">
-                        <h3 class="text-3xl font-semibold mb-4">第六步：FFN非线性变换</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第六步：FFN非线性变换</h3>
                         <p class="mb-4 text-gray-700">自注意力层输出的向量还需要经过前馈神经网络（FFN）进行非线性变换，进一步提炼和加工信息。FFN通常包含两个线性变换和一个激活函数。</p>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div class="bg-white p-6 rounded-xl border border-gray-200">
@@ -2225,7 +2406,7 @@
                     </div>
 
                     <div class="journey-step training-step" data-step="7" id="step-7">
-                        <h3 class="text-3xl font-semibold mb-4">第七步：损失函数与梯度计算</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第七步：损失函数与梯度计算</h3>
                         <p class="mb-4 text-gray-700">模型预测出错后，需要通过损失函数量化误差，然后计算梯度来指导参数更新。让我们详细看看这个过程。</p>
                         <div class="space-y-6">
                             <div class="bg-white p-6 rounded-xl border border-gray-200">
@@ -2278,7 +2459,7 @@
                     </div>
 
                     <div class="journey-step training-step" data-step="8" id="step-8">
-                        <h3 class="text-3xl font-semibold mb-4">第八步：反向传播与梯度计算</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第八步：反向传播与梯度计算</h3>
                         <p class="mb-4 text-gray-700">损失函数告诉我们"错了多少"，但要知道"如何改正"，就需要计算梯度。梯度指出了每个参数应该往哪个方向、调整多少才能减少损失。</p>
                         <div class="space-y-6">
                             <div class="bg-white p-6 rounded-xl border border-gray-200">
@@ -2348,7 +2529,7 @@
                     </div>
 
                     <div class="journey-step training-step" data-step="9" id="step-9">
-                        <h3 class="text-3xl font-semibold mb-4">第九步：权重更新与优化</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第九步：权重更新与优化</h3>
                         <p class="mb-4 text-gray-700">有了梯度，就可以更新权重了。现代深度学习使用Adam等优化器，它比简单的梯度下降更智能，能够自适应地调整学习率。</p>
                         <div class="space-y-6">
                             <div class="bg-white p-6 rounded-xl border border-gray-200">
@@ -2436,16 +2617,16 @@
             </section>
             
             <section id="inference" class="content-section">
-                <h2 class="text-4xl font-bold mb-8 text-[#4338CA]">推理过程：从输入到输出的生成之旅</h2>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-[#4338CA]">推理过程：从输入到输出的生成之旅</h2>
                 <p class="text-xl leading-relaxed mb-8 text-gray-700">推理（Inference）是使用训练好的模型来生成新文本的过程。与训练不同，推理没有"标准答案"，模型需要根据用户输入，一步步地决定下一个最合适的词。让我们跟随"请介绍一下人工智能"这个提示词，体验完整的推理流程。</p>
                 
                 <!-- 推理演示控制面板 -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-8">
                     <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
-                            <button id="start-inference-demo" class="bg-[#4338CA] text-white px-6 py-3 rounded-lg hover:bg-[#3730A3] transition font-semibold">开始推理演示</button>
-                            <button id="next-inference-step" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold hidden">下一步</button>
-                            <button id="reset-inference" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-semibold">重置</button>
+                            <button id="start-inference-demo" class="bg-[#4338CA] text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-[#3730A3] transition font-semibold min-h-[44px] text-sm sm:text-base">开始推理演示</button>
+                            <button id="next-inference-step" class="bg-green-600 text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold hidden min-h-[44px] text-sm sm:text-base">下一步</button>
+                            <button id="reset-inference" class="bg-gray-200 text-gray-800 px-4 sm:px-6 py-3 rounded-lg hover:bg-gray-300 transition font-semibold min-h-[44px] text-sm sm:text-base">重置</button>
                     </div>
                         <div class="flex items-center gap-4">
                             <div class="text-sm text-gray-600">当前阶段:</div>
@@ -2472,7 +2653,7 @@
                 <div class="space-y-8">
                     <!-- 第一步：输入处理与Tokenization -->
                     <div class="inference-step bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-50 transition-all duration-500" data-step="1" id="inference-step-1">
-                        <h3 class="text-3xl font-semibold mb-4">第一步：输入处理与分词</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第一步：输入处理与分词</h3>
                         <p class="mb-4 text-gray-700">首先将用户输入的文本转换为模型能理解的token序列，并为每个token分配位置编码。</p>
                         
                         <div class="grid md:grid-cols-2 gap-6">
@@ -2501,7 +2682,7 @@
 
                     <!-- 第二步：Prefill阶段 -->
                     <div class="inference-step bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-50 transition-all duration-500" data-step="2" id="inference-step-2">
-                        <h3 class="text-3xl font-semibold mb-4">第二步：Prefill阶段 - 并行处理输入</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第二步：Prefill阶段 - 并行处理输入</h3>
                         <p class="mb-4 text-gray-700">在Prefill阶段，模型并行处理整个输入序列，计算所有token的KV cache，为后续生成做准备。</p>
                         
                         <div class="space-y-6">
@@ -2544,7 +2725,7 @@
 
                     <!-- 第三步：Decode阶段 - 第一个token生成 -->
                     <div class="inference-step bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-50 transition-all duration-500" data-step="3" id="inference-step-3">
-                        <h3 class="text-3xl font-semibold mb-4">第三步：Decode阶段 - 生成第一个词</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第三步：Decode阶段 - 生成第一个词</h3>
                         <p class="mb-4 text-gray-700">进入自回归生成模式，利用Prefill阶段的KV cache，预测第一个输出token。</p>
                         
                         <div class="space-y-6">
@@ -2595,7 +2776,7 @@
 
                     <!-- 第四步：KV Cache更新与后续生成 -->
                     <div class="inference-step bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-50 transition-all duration-500" data-step="4" id="inference-step-4">
-                        <h3 class="text-3xl font-semibold mb-4">第四步：KV Cache更新与后续生成</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第四步：KV Cache更新与后续生成</h3>
                         <p class="mb-4 text-gray-700">将新生成的token加入KV Cache，继续自回归生成过程，直到遇到停止条件。</p>
                         
                         <div class="space-y-6">
@@ -2636,7 +2817,7 @@
 
                     <!-- 第五步：温度和解码策略 -->
                     <div class="inference-step bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-50 transition-all duration-500" data-step="5" id="inference-step-5">
-                        <h3 class="text-3xl font-semibold mb-4">第五步：温度与解码策略的影响</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第五步：温度与解码策略的影响</h3>
                         <p class="mb-4 text-gray-700">不同的温度和解码策略会显著影响生成结果的质量和创造性。让我们看看同一个输入在不同设置下的表现。</p>
                         
                         <div class="space-y-6">
@@ -2692,7 +2873,7 @@
 
                     <!-- 第六步：完整生成结果 -->
                     <div class="inference-step bg-white p-6 rounded-xl shadow-sm border border-gray-200 opacity-50 transition-all duration-500" data-step="6" id="inference-step-6">
-                        <h3 class="text-3xl font-semibold mb-4">第六步：完整推理结果</h3>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">第六步：完整推理结果</h3>
                         <p class="mb-4 text-gray-700">经过Prefill和多轮Decode，模型完成了从输入提示到完整回答的生成过程。</p>
                         
                         <div class="space-y-6">
@@ -2775,6 +2956,7 @@
                     <p class="mt-2 text-lg text-amber-800">大模型没有"理解"文字，它只是在更高维度上<strong>掌握了语言的统计结构</strong>。它是一个通过预测下一个词来压缩世界知识的"超级压缩算法"。它所展现出的惊人能力，都源于它在天文数字般的参数中，编码了人类语言和知识中蕴含的复杂模式。</p>
                 </div>
             </section>
+            </div>
         </main>
     </div>
 
@@ -2792,13 +2974,13 @@
             allBtns.forEach(btn => {
                 btn.classList.remove('ring-2', 'ring-offset-2');
                 if (btn.dataset.component === 'attention') {
-                    btn.className = 'component-btn bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition';
+                    btn.className = 'component-btn bg-purple-100 hover:bg-purple-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.component === 'ffn') {
-                    btn.className = 'component-btn bg-orange-100 hover:bg-orange-200 px-4 py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition';
+                    btn.className = 'component-btn bg-orange-100 hover:bg-orange-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.component === 'moe') {
-                    btn.className = 'component-btn bg-green-100 hover:bg-green-200 px-4 py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition';
+                    btn.className = 'component-btn bg-green-100 hover:bg-green-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.component === 'residual') {
-                    btn.className = 'component-btn bg-indigo-100 hover:bg-indigo-200 px-4 py-2 rounded-lg border border-indigo-300 font-semibold text-indigo-700 transition';
+                    btn.className = 'component-btn bg-indigo-100 hover:bg-indigo-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-indigo-300 font-semibold text-indigo-700 transition min-h-[44px] text-sm sm:text-base';
                 }
             });
             
@@ -2812,13 +2994,13 @@
             const targetBtn = document.querySelector(`[data-component="${componentName}"]`);
             if (targetBtn) {
                 if (componentName === 'attention') {
-                    targetBtn.className = 'component-btn bg-purple-200 px-4 py-2 rounded-lg border border-purple-400 font-semibold text-purple-800 ring-2 ring-purple-300 ring-offset-2 transition';
+                    targetBtn.className = 'component-btn bg-purple-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-purple-400 font-semibold text-purple-800 ring-2 ring-purple-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (componentName === 'ffn') {
-                    targetBtn.className = 'component-btn bg-orange-200 px-4 py-2 rounded-lg border border-orange-400 font-semibold text-orange-800 ring-2 ring-orange-300 ring-offset-2 transition';
+                    targetBtn.className = 'component-btn bg-orange-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-orange-400 font-semibold text-orange-800 ring-2 ring-orange-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (componentName === 'moe') {
-                    targetBtn.className = 'component-btn bg-green-200 px-4 py-2 rounded-lg border border-green-400 font-semibold text-green-800 ring-2 ring-green-300 ring-offset-2 transition';
+                    targetBtn.className = 'component-btn bg-green-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-green-400 font-semibold text-green-800 ring-2 ring-green-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (componentName === 'residual') {
-                    targetBtn.className = 'component-btn bg-indigo-200 px-4 py-2 rounded-lg border border-indigo-400 font-semibold text-indigo-800 ring-2 ring-indigo-300 ring-offset-2 transition';
+                    targetBtn.className = 'component-btn bg-indigo-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-indigo-400 font-semibold text-indigo-800 ring-2 ring-indigo-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 }
             }
         }
@@ -2836,15 +3018,15 @@
             allBtns.forEach(btn => {
                 btn.classList.remove('ring-2', 'ring-offset-2');
                 if (btn.dataset.stage === 'rule-based') {
-                    btn.className = 'evolution-stage-btn bg-red-100 hover:bg-red-200 px-4 py-2 rounded-lg border border-red-300 font-semibold text-red-700 transition';
+                    btn.className = 'evolution-stage-btn bg-red-100 hover:bg-red-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-red-300 font-semibold text-red-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.stage === 'statistical') {
-                    btn.className = 'evolution-stage-btn bg-orange-100 hover:bg-orange-200 px-4 py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition';
+                    btn.className = 'evolution-stage-btn bg-orange-100 hover:bg-orange-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-orange-300 font-semibold text-orange-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.stage === 'neural') {
-                    btn.className = 'evolution-stage-btn bg-green-100 hover:bg-green-200 px-4 py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition';
+                    btn.className = 'evolution-stage-btn bg-green-100 hover:bg-green-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-green-300 font-semibold text-green-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.stage === 'attention') {
-                    btn.className = 'evolution-stage-btn bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded-lg border border-blue-300 font-semibold text-blue-700 transition';
+                    btn.className = 'evolution-stage-btn bg-blue-100 hover:bg-blue-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-blue-300 font-semibold text-blue-700 transition min-h-[44px] text-sm sm:text-base';
                 } else if (btn.dataset.stage === 'transformer') {
-                    btn.className = 'evolution-stage-btn bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition';
+                    btn.className = 'evolution-stage-btn bg-purple-100 hover:bg-purple-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-purple-300 font-semibold text-purple-700 transition min-h-[44px] text-sm sm:text-base';
                 }
             });
             
@@ -2858,15 +3040,15 @@
             const targetBtn = document.querySelector(`[data-stage="${stageName}"]`);
             if (targetBtn) {
                 if (stageName === 'rule-based') {
-                    targetBtn.className = 'evolution-stage-btn bg-red-200 px-4 py-2 rounded-lg border border-red-400 font-semibold text-red-800 ring-2 ring-red-300 ring-offset-2 transition';
+                    targetBtn.className = 'evolution-stage-btn bg-red-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-red-400 font-semibold text-red-800 ring-2 ring-red-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (stageName === 'statistical') {
-                    targetBtn.className = 'evolution-stage-btn bg-orange-200 px-4 py-2 rounded-lg border border-orange-400 font-semibold text-orange-800 ring-2 ring-orange-300 ring-offset-2 transition';
+                    targetBtn.className = 'evolution-stage-btn bg-orange-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-orange-400 font-semibold text-orange-800 ring-2 ring-orange-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (stageName === 'neural') {
-                    targetBtn.className = 'evolution-stage-btn bg-green-200 px-4 py-2 rounded-lg border border-green-400 font-semibold text-green-800 ring-2 ring-green-300 ring-offset-2 transition';
+                    targetBtn.className = 'evolution-stage-btn bg-green-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-green-400 font-semibold text-green-800 ring-2 ring-green-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (stageName === 'attention') {
-                    targetBtn.className = 'evolution-stage-btn bg-blue-200 px-4 py-2 rounded-lg border border-blue-400 font-semibold text-blue-800 ring-2 ring-blue-300 ring-offset-2 transition';
+                    targetBtn.className = 'evolution-stage-btn bg-blue-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-blue-400 font-semibold text-blue-800 ring-2 ring-blue-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 } else if (stageName === 'transformer') {
-                    targetBtn.className = 'evolution-stage-btn bg-purple-200 px-4 py-2 rounded-lg border border-purple-400 font-semibold text-purple-800 ring-2 ring-purple-300 ring-offset-2 transition';
+                    targetBtn.className = 'evolution-stage-btn bg-purple-200 px-3 sm:px-4 py-3 sm:py-2 rounded-lg border border-purple-400 font-semibold text-purple-800 ring-2 ring-purple-300 ring-offset-2 transition min-h-[44px] text-sm sm:text-base';
                 }
             }
         }
@@ -2904,7 +3086,7 @@
                     history.pushState(null, null, targetHash);
                     setActiveSection(targetHash);
                     if (window.innerWidth < 768) {
-                        sidebar.classList.add('-translate-x-full');
+                        sidebar.classList.remove('show');
                     }
                 });
             });
@@ -2912,7 +3094,7 @@
             window.addEventListener('popstate', () => setActiveSection(window.location.hash));
             
             menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('show');
             });
 
             setActiveSection();
