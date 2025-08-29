@@ -397,6 +397,189 @@
                 margin-left: 0 !important;
             }
         }
+
+        /* 信息按钮样式 - Linear App风格 */
+        .info-btn {
+            background: #f4f5f7;
+            border: 1px solid #e1e5e9;
+            border-radius: 4px;
+            width: 20px;
+            height: 20px;
+            margin-left: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            color: #5e6ad2;
+        }
+        
+        .info-btn:hover {
+            background: #e8eaed;
+            border-color: #d1d9e0;
+        }
+        
+        /* 模态框样式 - Linear App风格 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            max-width: 580px;
+            width: 90%;
+            animation: slideIn 0.2s ease;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+        
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        
+        .close-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .concept-section {
+            margin-bottom: 24px;
+        }
+        
+        .concept-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .concept-section h4 {
+            color: #111827;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .concept-section p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin: 0 0 16px 0;
+            font-size: 14px;
+        }
+        
+        .example-box {
+            background: #f9fafb;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 14px;
+            color: #374151;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+                top: 20px;
+                transform: translateX(-50%);
+                position: fixed;
+            }
+            
+            .modal-header {
+                padding: 16px 20px;
+            }
+            
+            .modal-header h3 {
+                font-size: 16px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .concept-section {
+                margin-bottom: 20px;
+            }
+            
+            .concept-section h4 {
+                font-size: 15px;
+            }
+            
+            .concept-section p {
+                font-size: 14px;
+            }
+            
+            .example-box {
+                font-size: 13px;
+                padding: 14px 16px;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -694,7 +877,7 @@
                                     <h4 class="text-xl font-bold text-yellow-700 mb-4">⚠️ 主要局限</h4>
                                     <ul class="text-yellow-600 space-y-2">
                                         <li>• <strong>静态词嵌入：</strong>"apple"在所有上下文中向量相同，无法区分"吃苹果"和"苹果公司"</li>
-                                        <li>• <strong>信息瓶颈：</strong>编码器需要将整个句子压缩到固定向量</li>
+                                        <li>• <strong>信息瓶颈：</strong>编码器需要将整个句子压缩到固定向量 <button class="info-btn" onclick="showInfoModal()" title="点击了解详情">💡</button></li>
                                         <li>• <strong>长序列问题：</strong>长句子容易遗忘前面信息</li>
                                         <li>• <strong>上下文盲：</strong>无法根据语境动态调整词义表示</li>
                                     </ul>
@@ -791,9 +974,37 @@
                                     <ul class="text-yellow-600 space-y-2">
                                         <li>• <strong>仍依赖RNN：</strong>编码器-解码器仍基于RNN/LSTM架构</li>
                                         <li>• <strong>串行处理：</strong>无法并行计算，训练速度受限</li>
-                                        <li>• <strong>梯度问题：</strong>长序列仍存在梯度消失问题</li>
+                                        <li>• <strong>梯度问题：</strong>长序列仍存在梯度消失问题 <button class="info-btn" onclick="showGradientModal()" title="点击了解详情">💡</button></li>
                                         <li>• <strong>计算效率：</strong>RNN串行特性限制了计算效率</li>
                                     </ul>
+                                </div>
+
+                                <!-- 梯度基础知识 -->
+                                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg border border-purple-200 mt-6">
+                                    <h4 class="text-xl font-bold text-purple-700 mb-4">🎯 什么是梯度？</h4>
+                                    <div class="space-y-4">
+                                        <div class="bg-white/70 p-4 rounded-lg border border-purple-100">
+                                            <h5 class="font-bold text-purple-700 mb-2">数学本质</h5>
+                                            <p class="text-purple-600 text-sm">梯度 = 导数的向量化形式，表示函数在某点的<strong>最快上升方向</strong>和<strong>变化率大小</strong></p>
+                                        </div>
+                                        
+                                        <div class="bg-white/70 p-4 rounded-lg border border-purple-100">
+                                            <h5 class="font-bold text-purple-700 mb-2">神经网络中的作用</h5>
+                                            <p class="text-purple-600 text-sm">梯度 = ∂L/∂θ，告诉我们调整哪个参数、往哪个方向调、调多少，是训练中的<strong>"导航指针"</strong></p>
+                                        </div>
+                                        
+                                        <div class="bg-white/70 p-4 rounded-lg border border-purple-100">
+                                            <h5 class="font-bold text-purple-700 mb-2">梯度消失现象</h5>
+                                            <p class="text-purple-600 text-sm">当梯度在反向传播中逐层衰减，变得极小时，前面的参数几乎无法更新，导致<strong>长距离依赖学习困难</strong></p>
+                                        </div>
+                                        
+                                        <div class="flex items-center justify-center mt-4">
+                                            <div class="bg-purple-100 px-4 py-2 rounded-lg border border-purple-200">
+                                                <span class="text-purple-700 font-mono text-sm">θ ← θ - η∇L(θ)</span>
+                                                <span class="text-purple-600 text-xs ml-2">(梯度下降公式)</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1284,6 +1495,275 @@
                         <button class="arch-button bg-gray-200 text-gray-800 px-4 sm:px-6 py-3 rounded-lg min-h-[44px] text-sm sm:text-base" data-arch="dec-only">Decoder-Only</button>
                     </div>
                     <div id="arch-display"></div>
+                </div>
+                
+                <!-- 为什么大模型选择Decoder-Only架构 -->
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 p-8 rounded-xl shadow-sm border border-indigo-200 mb-8">
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 text-center text-indigo-800">🤔 思考：为什么大模型都选择Decoder-Only架构？</h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <!-- 理论优势 -->
+                        <div class="bg-white/80 p-6 rounded-lg border border-indigo-100">
+                            <h4 class="text-lg font-bold text-indigo-700 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🧠</span>
+                                理论优势
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-indigo-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-indigo-800 text-sm">避免注意力"低秩"问题</h5>
+                                    <p class="text-indigo-600 text-xs mt-1">因果注意力确保注意力矩阵满秩，表达能力更强</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-indigo-800 text-sm">训练目标对齐</h5>
+                                    <p class="text-indigo-600 text-xs mt-1">下一词预测与实际生成任务完美匹配</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-indigo-800 text-sm">涌现能力潜力</h5>
+                                    <p class="text-indigo-600 text-xs mt-1">在大规模下更容易展现复杂能力</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 性能优势 -->
+                        <div class="bg-white/80 p-6 rounded-lg border border-purple-100">
+                            <h4 class="text-lg font-bold text-purple-700 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">⚡</span>
+                                性能优势
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-purple-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-purple-800 text-sm">KV-Cache机制</h5>
+                                    <p class="text-purple-600 text-xs mt-1">生成时可缓存键值对，大幅提升推理效率</p>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-purple-800 text-sm">上下文学习能力</h5>
+                                    <p class="text-purple-600 text-xs mt-1">天然支持Few-shot学习，无需微调</p>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-purple-800 text-sm">计算效率</h5>
+                                    <p class="text-purple-600 text-xs mt-1">前向计算逻辑清晰，易于并行化</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 工程优势 -->
+                        <div class="bg-white/80 p-6 rounded-lg border border-pink-100">
+                            <h4 class="text-lg font-bold text-pink-700 mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🔧</span>
+                                工程优势
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-pink-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-pink-800 text-sm">架构简洁</h5>
+                                    <p class="text-pink-600 text-xs mt-1">单塔结构，易于无上限扩展</p>
+                                </div>
+                                <div class="bg-pink-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-pink-800 text-sm">数据利用率高</h5>
+                                    <p class="text-pink-600 text-xs mt-1">原始文本即训练数据，无需复杂预处理</p>
+                                </div>
+                                <div class="bg-pink-50 p-3 rounded-lg">
+                                    <h5 class="font-semibold text-pink-800 text-sm">部署友好</h5>
+                                    <p class="text-pink-600 text-xs mt-1">推理链路简单，工程实现门槛低</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 三大架构深度对比 -->
+                    <div class="bg-white/90 p-6 rounded-lg border border-indigo-200">
+                        <h4 class="text-lg font-bold text-indigo-800 mb-4 text-center">⚡ 三大架构全面对比</h4>
+                        
+                        <!-- 对比表格 -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-gray-50">
+                                        <th class="p-3 text-left font-bold text-gray-700">维度</th>
+                                        <th class="p-3 text-center font-bold text-orange-700">Encoder-Only<br><span class="text-xs font-normal">(BERT类)</span></th>
+                                        <th class="p-3 text-center font-bold text-blue-700">Encoder-Decoder<br><span class="text-xs font-normal">(T5类)</span></th>
+                                        <th class="p-3 text-center font-bold text-green-700">Decoder-Only<br><span class="text-xs font-normal">(GPT类)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-t">
+                                        <td class="p-3 font-semibold text-gray-700">预训练任务</td>
+                                        <td class="p-3 text-center text-orange-600">掩码语言模型<br><span class="text-xs">(完形填空)</span></td>
+                                        <td class="p-3 text-center text-blue-600">前缀LM/去噪<br><span class="text-xs">(多任务混合)</span></td>
+                                        <td class="p-3 text-center text-green-600 bg-green-50">下一词预测<br><span class="text-xs font-semibold">(生成对齐) ✓</span></td>
+                                    </tr>
+                                    <tr class="border-t bg-gray-25">
+                                        <td class="p-3 font-semibold text-gray-700">注意力机制</td>
+                                        <td class="p-3 text-center text-orange-600">双向注意力<br><span class="text-xs">(容易低秩)</span></td>
+                                        <td class="p-3 text-center text-blue-600">混合注意力<br><span class="text-xs">(复杂度高)</span></td>
+                                        <td class="p-3 text-center text-green-600 bg-green-50">因果注意力<br><span class="text-xs font-semibold">(满秩保证) ✓</span></td>
+                                    </tr>
+                                    <tr class="border-t">
+                                        <td class="p-3 font-semibold text-gray-700">生成效率</td>
+                                        <td class="p-3 text-center text-orange-600">不支持生成<br><span class="text-xs">(需要解码器)</span></td>
+                                        <td class="p-3 text-center text-blue-600">中等<br><span class="text-xs">(双塔开销)</span></td>
+                                        <td class="p-3 text-center text-green-600 bg-green-50">高效<br><span class="text-xs font-semibold">(KV-Cache) ✓</span></td>
+                                    </tr>
+                                    <tr class="border-t bg-gray-25">
+                                        <td class="p-3 font-semibold text-gray-700">上下文学习</td>
+                                        <td class="p-3 text-center text-orange-600">不支持<br><span class="text-xs">(需要微调)</span></td>
+                                        <td class="p-3 text-center text-blue-600">有限<br><span class="text-xs">(复杂设置)</span></td>
+                                        <td class="p-3 text-center text-green-600 bg-green-50">天然支持<br><span class="text-xs font-semibold">(Few-shot) ✓</span></td>
+                                    </tr>
+                                    <tr class="border-t">
+                                        <td class="p-3 font-semibold text-gray-700">工程复杂度</td>
+                                        <td class="p-3 text-center text-orange-600">中等<br><span class="text-xs">(单塔)</span></td>
+                                        <td class="p-3 text-center text-blue-600">高<br><span class="text-xs">(双塔协调)</span></td>
+                                        <td class="p-3 text-center text-green-600 bg-green-50">低<br><span class="text-xs font-semibold">(单塔简洁) ✓</span></td>
+                                    </tr>
+                                    <tr class="border-t bg-gray-25">
+                                        <td class="p-3 font-semibold text-gray-700">扩展性</td>
+                                        <td class="p-3 text-center text-orange-600">有限<br><span class="text-xs">(理解任务)</span></td>
+                                        <td class="p-3 text-center text-blue-600">中等<br><span class="text-xs">(任务特化)</span></td>
+                                        <td class="p-3 text-center text-green-600 bg-green-50">无上限<br><span class="text-xs font-semibold">(通用能力) ✓</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 核心洞察对比 -->
+                        <div class="mt-6 grid md:grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="bg-orange-100 p-4 rounded-lg border border-orange-200 mb-2">
+                                    <h5 class="font-bold text-orange-700">BERT式训练</h5>
+                                    <p class="text-orange-600 text-sm">"做完形填空训练，去参加作文比赛"</p>
+                                </div>
+                                <p class="text-xs text-gray-600">预训练与生成任务存在Gap</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-blue-100 p-4 rounded-lg border border-blue-200 mb-2">
+                                    <h5 class="font-bold text-blue-700">T5式训练</h5>
+                                    <p class="text-blue-600 text-sm">"多科目练习，专项比赛"</p>
+                                </div>
+                                <p class="text-xs text-gray-600">任务导向，但架构复杂</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-green-100 p-4 rounded-lg border border-green-200 mb-2">
+                                    <h5 class="font-bold text-green-700">GPT式训练</h5>
+                                    <p class="text-green-600 text-sm">"一路写作文训练，去参加作文比赛"</p>
+                                </div>
+                                <p class="text-xs text-gray-600">训练目标与应用目标完美对齐</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 结论 -->
+                    <div class="mt-6 text-center">
+                        <div class="bg-gradient-to-r from-indigo-100 to-purple-100 p-4 rounded-lg border border-indigo-300">
+                            <p class="text-indigo-800 font-semibold">
+                                🚀 从构建"大一统模型"的视角来看，Decoder-Only架构凭借其<strong>理论高表达力</strong>、<strong>目标完美对齐</strong>、<strong>性能高效率</strong>以及<strong>工程简洁性</strong>，成为了大型语言模型的最佳选择
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 实际应用场景对比 -->
+                    <div class="mt-6 bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h5 class="font-bold text-slate-800 mb-4 text-center">🎯 实际应用场景：为什么大模型选择Decoder-Only？</h5>
+                        
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <!-- Encoder-Only 场景 -->
+                            <div class="bg-white p-4 rounded-lg border border-orange-200">
+                                <h6 class="font-bold text-orange-700 mb-3 flex items-center">
+                                    <span class="w-3 h-3 bg-orange-500 rounded-full mr-2"></span>
+                                    Encoder-Only 适用场景
+                                </h6>
+                                <ul class="text-sm space-y-2 text-orange-600">
+                                    <li>✅ 文本分类 (情感分析)</li>
+                                    <li>✅ 实体识别 (NER)</li>
+                                    <li>✅ 问答理解 (QA)</li>
+                                    <li>❌ 文本生成</li>
+                                    <li>❌ 对话系统</li>
+                                    <li>❌ 代码生成</li>
+                                </ul>
+                                <div class="mt-3 p-2 bg-orange-50 rounded text-xs text-orange-700">
+                                    <strong>局限:</strong> 无法处理生成任务
+                                </div>
+                            </div>
+                            
+                            <!-- Encoder-Decoder 场景 -->
+                            <div class="bg-white p-4 rounded-lg border border-blue-200">
+                                <h6 class="font-bold text-blue-700 mb-3 flex items-center">
+                                    <span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
+                                    Encoder-Decoder 适用场景
+                                </h6>
+                                <ul class="text-sm space-y-2 text-blue-600">
+                                    <li>✅ 机器翻译</li>
+                                    <li>✅ 文本摘要</li>
+                                    <li>✅ 特定格式转换</li>
+                                    <li>⚠️ 对话生成 (有限)</li>
+                                    <li>❌ 上下文学习</li>
+                                    <li>❌ 复杂推理</li>
+                                </ul>
+                                <div class="mt-3 p-2 bg-blue-50 rounded text-xs text-blue-700">
+                                    <strong>局限:</strong> 架构复杂，扩展困难
+                                </div>
+                            </div>
+                            
+                            <!-- Decoder-Only 场景 -->
+                            <div class="bg-white p-4 rounded-lg border border-green-200 ring-2 ring-green-300">
+                                <h6 class="font-bold text-green-700 mb-3 flex items-center">
+                                    <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                                    Decoder-Only 适用场景
+                                </h6>
+                                <ul class="text-sm space-y-2 text-green-600">
+                                    <li>✅ 所有生成任务</li>
+                                    <li>✅ 所有理解任务</li>
+                                    <li>✅ 对话系统</li>
+                                    <li>✅ 代码生成</li>
+                                    <li>✅ 复杂推理</li>
+                                    <li>✅ 上下文学习</li>
+                                </ul>
+                                <div class="mt-3 p-2 bg-green-50 rounded text-xs text-green-700">
+                                    <strong>优势:</strong> 真正的"大一统"架构
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 关键数据对比 -->
+                        <div class="mt-6 bg-white p-4 rounded-lg border border-slate-200">
+                            <h6 class="font-bold text-slate-700 mb-3 text-center">📊 关键指标对比 (基于1750亿参数规模)</h6>
+                            <div class="grid md:grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-bold text-orange-600">~30%</div>
+                                    <div class="text-sm text-orange-600">BERT类模型</div>
+                                    <div class="text-xs text-gray-500">生成任务覆盖率</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-blue-600">~60%</div>
+                                    <div class="text-sm text-blue-600">T5类模型</div>
+                                    <div class="text-xs text-gray-500">任务泛化能力</div>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-green-600">~95%</div>
+                                    <div class="text-sm text-green-600">GPT类模型</div>
+                                    <div class="text-xs text-gray-500">全任务覆盖率</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 其他架构的定位 -->
+                    <div class="mt-6 bg-amber-50 p-4 rounded-lg border border-amber-200">
+                        <h5 class="font-bold text-amber-800 mb-2">💡 总结：各架构的最佳定位</h5>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <strong class="text-amber-700">Encoder-Only:</strong>
+                                <span class="text-amber-600">垂直领域的"理解专家"</span>
+                            </div>
+                            <div>
+                                <strong class="text-amber-700">Encoder-Decoder:</strong>
+                                <span class="text-amber-600">特定任务的"转换专家"</span>
+                            </div>
+                            <div class="bg-amber-100 p-2 rounded">
+                                <strong class="text-amber-800">Decoder-Only:</strong>
+                                <span class="text-amber-700">通用智能的"全能选手"</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -4069,6 +4549,120 @@
             });
 
         });
+
+        // 信息模态框功能
+        function showInfoModal() {
+            document.getElementById('infoModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hideInfoModal() {
+            document.getElementById('infoModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // 梯度模态框功能
+        function showGradientModal() {
+            document.getElementById('gradientModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hideGradientModal() {
+            document.getElementById('gradientModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hideInfoModal();
+                hideGradientModal();
+            }
+        });
     </script>
+
+    <!-- 信息瓶颈解释模态框 -->
+    <div id="infoModal" class="modal-overlay" onclick="hideInfoModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>💡 "信息瓶颈"深度解析</h3>
+                <button class="close-btn" onclick="hideInfoModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="concept-section">
+                    <h4>🔒 早期Seq2Seq的根本问题</h4>
+                    <p><strong>信息瓶颈：</strong>RNN逐词读取，最终所有信息压缩进一个固定维度向量。<strong>长距离依赖弱：</strong>句首信息在传递过程中逐渐遗忘。</p>
+                    <div class="example-box">
+                        句子1→句子2→...→句子N → 📦 hidden_state → 解码输出
+                    </div>
+                </div>
+                
+                <div class="concept-section">
+                    <h4>⚡ Attention机制的突破(2015)</h4>
+                    <p>Decoder生成每个词时，不再只依赖最后的固定向量，而是对Encoder的<strong>所有hidden states做加权关注</strong>，动态利用整个上下文。</p>
+                    <div class="example-box">
+                        所有encoder状态 → 🎯 动态加权 → 精准解码
+                    </div>
+                </div>
+                
+                <div class="concept-section">
+                    <h4>🚀 Self-Attention的彻底革命</h4>
+                    <p>Transformer抛弃RNN，让<strong>每个词直接与句中其他所有词交互</strong>。最后位置的向量通过多层自注意力，已经是所有词相互作用的结果。</p>
+                    <div class="example-box">
+                        每个词 ↔ 所有其他词 → 富含上下文的表示
+                    </div>
+                </div>
+                
+                <div class="concept-section">
+                    <h4>💡 为什么早期"无法融合上下文"？</h4>
+                    <p>• <strong>压缩过度：</strong>几十个词→一个向量，语义细节丢失<br>• <strong>单向传递：</strong>信息只能逐步递归，无法前后直接交互<br>• <strong>遗忘机制：</strong>后面的词覆盖前面的信息</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 梯度问题解释模态框 -->
+    <div id="gradientModal" class="modal-overlay" onclick="hideGradientModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>💡 "梯度消失"深度解析</h3>
+                <button class="close-btn" onclick="hideGradientModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="concept-section">
+                    <h4>🎯 什么是梯度消失问题？</h4>
+                    <p>想象<strong>"传话游戏"</strong>：最后一个人发现信息错了，需要把"修正信号"反向传回第一个人。每经过一个人，信号都会变弱。传到第一个人时，信号几乎消失了。</p>
+                    <div class="example-box">
+                        修正信号 ×0.8 ×0.8 ×0.8... → 几乎为0
+                    </div>
+                </div>
+                
+                <div class="concept-section">
+                    <h4>⚡ 注意力机制解决了什么？</h4>
+                    <p>注意力像<strong>"超级外挂"</strong>，为解码器建立了到编码器所有位置的"直通高速公路"，解决了信息瓶颈问题。</p>
+                    <div class="example-box">
+                        解码器 ⚡ 直接连接 → 编码器所有位置
+                    </div>
+                </div>
+                
+                <div class="concept-section">
+                    <h4>❌ 为什么问题仍然存在？</h4>
+                    <p>注意力解决了<strong>空间问题</strong>（解码器看编码器），但编码器内部仍是RNN。梯度在RNN的"弯曲小路"上反向传播时，依然会消失。</p>
+                    <div class="example-box">
+                        编码器内部：词1 →RNN→ 词2 →RNN→ 词3...（梯度衰减）
+                    </div>
+                </div>
+                
+                <div class="concept-section">
+                    <h4>🚀 Transformer的彻底解决</h4>
+                    <p>完全抛弃RNN，让序列中任意两个词都有"高速公路"连接，梯度可以直接在任意词之间传递。</p>
+                    <div class="example-box">
+                        每个词 ↔ 每个词（Self-Attention高速公路）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
